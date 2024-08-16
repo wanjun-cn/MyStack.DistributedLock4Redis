@@ -1,16 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <Nullable>enable</Nullable>
     <TargetFramework>netstandard2.1</TargetFramework>  
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Title>MyStack.DistributedLocking</Title>
-    <Version>0.0.1-beta2</Version>
-    <Authors>June</Authors>
-    <Company>June</Company>
+    <Title>MyStack.DistributedLock4Redis</Title>
+    <Version>1.0.1</Version>
+    <Authors>Jun Wan</Authors>
+    <Company>Jun Wan</Company>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>NUGET.md</PackageReadmeFile>
     <Description>This package provides the APIs for using distributed locking library</Description>
-    <RootNamespace>Microsoft.Extensions.DistributedLocking</RootNamespace>
+    <RootNamespace>Microsoft.Extensions.DistributedLock4Redis</RootNamespace>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/june-it/MyStack.DistributedLocking.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

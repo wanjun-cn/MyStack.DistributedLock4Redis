@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MyStack.DistributedLocking\MyStack.DistributedLocking.csproj" />
+    <ProjectReference Include="..\..\src\MyStack.DistributedLock4Redis\MyStack.DistributedLock4Redis.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,37 +1,36 @@
-# MyStack.DistributedLocking
+# MyStack.DistributedLock4Redis
 
-Open source lightweight distributed lock library
-
+开源的轻量级分布式锁类库
 
 | nuget      | stats |
 | ----------- | ----------- |
-| [![nuget](https://img.shields.io/nuget/v/MyStack.DistributedLocking.svg?style=flat-square)](https://www.nuget.org/packages/MyStack.DistributedLocking)       |  [![stats](https://img.shields.io/nuget/dt/MyStack.DistributedLocking.svg?style=flat-square)](https://www.nuget.org/stats/packages/MyStack.DistributedLocking?groupby=Version)        |
+| [![nuget](https://img.shields.io/nuget/v/MyStack.DistributedLock4Redis.svg?style=flat-square)](https://www.nuget.org/packages/MyStack.DistributedLock4Redis)       |  [![stats](https://img.shields.io/nuget/dt/MyStack.DistributedLock4Redis.svg?style=flat-square)](https://www.nuget.org/stats/packages/MyStack.DistributedLock4Redis?groupby=Version)        |
 
-# Usage
+# 开始使用
 
-## Add Services to container
+## 添加服务支持
 
 ```
-services.AddDistributedLocks(configure =>
+services.AddDistributedLock4Redis(configure =>
 {
    configure.KeyPrefix = "MyStack";
    configure.ConnectionString = "127.0.0.1:6379,password=123456";
 });
 ```
 
-## Use DistributedLock
+## 使用分布式
 
 ```
-// lock a key
+// 获取锁
 var distributedLock = ServiceProvider.GetRequiredService<IDistributedLock>();
 var result = await distributedLock.TryEnterAsync("Foo", expire: 60);
-// release lock
+// 释放锁
 await distributedLock.ExitAsync("Foo");
 
 
 or 
 
-// Lock a key and release it after executing a method
+// 尝试获取锁并执行异步任务
 var distributedLock = ServiceProvider.GetRequiredService<IDistributedLock>();
 var result = await distributedLock.TryEnterAsync("Foo", async () =>
 {
@@ -39,5 +38,5 @@ var result = await distributedLock.TryEnterAsync("Foo", async () =>
 });
 ```
 
-# License 
+# 许可 
 MIT

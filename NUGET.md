@@ -1,3 +1,3 @@
-# MyStack.DistributedLocking
+# MyStack.DistributedLock4Redis
 
-This package provides the APIs for using distributed locking library
+开源的轻量级Redis分布式锁类库

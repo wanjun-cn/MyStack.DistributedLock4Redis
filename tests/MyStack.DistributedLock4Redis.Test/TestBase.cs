@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace MyStack.DistributedLocking.Test
+namespace MyStack.DistributedLock4Redis.Test
 {
     public abstract class TestBase
     {
@@ -18,7 +18,7 @@ namespace MyStack.DistributedLocking.Test
               })
               .ConfigureServices((context, services) =>
               {
-                  services.AddDistributedLocking(context.Configuration);
+                  services.AddDistributedLock4Redis(context.Configuration);
                   // or  
                   //services.AddDistributedLocks(configure =>
                   //{
