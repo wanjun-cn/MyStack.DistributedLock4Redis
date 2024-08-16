@@ -5,7 +5,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>  
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>MyStack.DistributedLock4Redis</Title>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>Jun Wan</Authors>
     <Company>Jun Wan</Company>
     <PackageIcon>icon.png</PackageIcon>
@@ -13,7 +13,7 @@
     <Description>This package provides the APIs for using distributed locking library</Description>
     <RootNamespace>Microsoft.Extensions.DistributedLock4Redis</RootNamespace>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/june-it/MyStack.DistributedLocking.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/june-it/MyStack.DistributedLock4Redis.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
