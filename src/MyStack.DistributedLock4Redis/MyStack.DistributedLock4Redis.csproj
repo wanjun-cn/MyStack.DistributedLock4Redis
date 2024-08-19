@@ -10,7 +10,7 @@
     <Company>Jun Wan</Company>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>NUGET.md</PackageReadmeFile>
-    <Description>This package provides the APIs for using distributed locking library</Description>
+    <Description>开源的轻量级Redis分布式锁类库</Description>
     <RootNamespace>Microsoft.Extensions.DistributedLock4Redis</RootNamespace>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/june-it/MyStack.DistributedLock4Redis.git</RepositoryUrl>
