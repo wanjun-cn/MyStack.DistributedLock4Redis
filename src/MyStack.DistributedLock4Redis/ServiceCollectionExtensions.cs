@@ -11,7 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 添加Redis分布式锁支持
         /// </summary>
         /// <param name="services">服务集合</param>
-        /// <param name="configure">配置</param>
+        /// <param name="configure">配置委托</param>
         /// <returns></returns>
         public static IServiceCollection AddDistributedLock4Redis(this IServiceCollection services, Action<DistributedLock4RedisOptions> configure)
         {

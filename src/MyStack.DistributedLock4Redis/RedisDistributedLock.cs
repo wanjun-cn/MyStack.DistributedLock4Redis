@@ -9,17 +9,17 @@ namespace Microsoft.Extensions.DistributedLock4Redis
 
     public class RedisDistributedLock : IDistributedLock
     {
-        private readonly string? _keyPrefix;
         public RedisDistributedLock(IOptions<DistributedLock4RedisOptions> options)
         {
-            _keyPrefix = options?.Value.KeyPrefix;
+            Options = options.Value;
         }
-        public async Task<bool> TryAcquireAsync(string key, int? expire, int? attempt, CancellationToken cancellation = default)
+        protected DistributedLock4RedisOptions Options { get; }
+        public async virtual Task<bool> TryAcquireAsync(string key, int? expire, int? attempt, CancellationToken cancellation = default)
         {
             cancellation.ThrowIfCancellationRequested();
             if (string.IsNullOrEmpty(key))
             {
-                throw new ArgumentNullException(nameof(key), "The key cannot be empty or null");
+                throw new ArgumentNullException(nameof(key), "键名不能为空");
             }
 
             DateTime begin = DateTime.Now;
@@ -43,18 +43,18 @@ namespace Microsoft.Extensions.DistributedLock4Redis
             }
             return false;
         }
-        public async Task ExitAsync(string key, CancellationToken cancellation = default)
+        public async virtual Task ReleaseAsync(string key, CancellationToken cancellation = default)
         {
             cancellation.ThrowIfCancellationRequested();
             await RedisHelper.DelAsync(GetFullKey(key));
         }
-        private string GetFullKey(string key)
+        protected virtual string GetFullKey(string key)
         {
             if (string.IsNullOrEmpty(key))
-                throw new ArgumentNullException(nameof(key), "The key cannot be empty or null");
-            return string.IsNullOrEmpty(_keyPrefix) ? key : $"{_keyPrefix}.{key}";
+                throw new ArgumentNullException(nameof(key), "键名不能为空");
+            return string.IsNullOrEmpty(Options.KeyPrefix) ? key : $"{Options.KeyPrefix}.{key}";
         }
-        public async Task<T> TryExecuteAsync<T>(string key, Func<Task<T>> handler, int? expire = null, int? attempt = null, CancellationToken cancellation = default)
+        public async virtual Task<T> TryExecuteAsync<T>(string key, Func<Task<T>> handler, int? expire = null, int? attempt = null, CancellationToken cancellation = default)
         {
             cancellation.ThrowIfCancellationRequested();
             if (await TryAcquireAsync(key, expire, attempt))
@@ -66,12 +66,12 @@ namespace Microsoft.Extensions.DistributedLock4Redis
                 }
                 finally
                 {
-                    try { await ExitAsync(key); } finally { }
+                    try { await ReleaseAsync(key); } finally { }
                 }
             }
             return default!;
         }
-        public async Task TryExecuteAsync(string key, Func<Task> handler, int? expire = null, int? attempt = null, CancellationToken cancellation = default)
+        public async virtual Task TryExecuteAsync(string key, Func<Task> handler, int? expire = null, int? attempt = null, CancellationToken cancellation = default)
         {
             cancellation.ThrowIfCancellationRequested();
             if (await TryAcquireAsync(key, expire, attempt))
@@ -83,7 +83,7 @@ namespace Microsoft.Extensions.DistributedLock4Redis
                 }
                 finally
                 {
-                    try { await ExitAsync(key); } finally { }
+                    try { await ReleaseAsync(key); } finally { }
                 }
             }
         }

@@ -25,7 +25,7 @@ namespace Microsoft.Extensions.DistributedLock4Redis
         /// </summary>
         /// <param name="key">键名</param>
         /// <param name="cancellation">取消令牌</param> 
-        Task ExitAsync(string key, CancellationToken cancellation = default);
+        Task ReleaseAsync(string key, CancellationToken cancellation = default);
         /// <summary>
         /// 尝试在获取锁成功执行委托任务
         /// </summary>

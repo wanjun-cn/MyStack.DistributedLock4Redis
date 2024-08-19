@@ -25,7 +25,7 @@ services.AddDistributedLock4Redis(configure =>
 var distributedLock = ServiceProvider.GetRequiredService<IDistributedLock>();
 var result = await distributedLock.TryEnterAsync("Foo", expire: 60);
 // 释放锁
-await distributedLock.ExitAsync("Foo");
+await distributedLock.ReleaseAsync("Foo");
 
 
 or 
