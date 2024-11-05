@@ -1,16 +1,16 @@
 ﻿namespace Microsoft.Extensions.DistributedLock4Redis
 {
     /// <summary>
-    /// 表示分布式锁的配置项
+    /// Represents the configuration options for a distributed lock
     /// </summary>
     public class DistributedLock4RedisOptions
     {
         /// <summary>
-        /// 获取或设置全局键的前缀
+        /// Gets or sets the prefix for global keys
         /// </summary>
         public string KeyPrefix { get; set; } = default!;
         /// <summary>
-        /// 获取或设置Redis连接字符串
+        /// Gets or sets the Redis connection string
         /// </summary>
         public string ConnectionString { get; set; } = default!;
     }

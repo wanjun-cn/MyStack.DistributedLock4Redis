@@ -5,12 +5,12 @@
     <TargetFramework>netstandard2.1</TargetFramework>  
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>MyStack.DistributedLock4Redis</Title>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
     <Authors>Jun Wan</Authors>
     <Company>Jun Wan</Company>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>NUGET.md</PackageReadmeFile>
-    <Description>开源的轻量级Redis分布式锁类库</Description>
+    <Description>Open-source Lightweight Distributed Lock Library (Based on Redis)</Description>
     <RootNamespace>Microsoft.Extensions.DistributedLock4Redis</RootNamespace>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/june-it/MyStack.DistributedLock4Redis.git</RepositoryUrl>

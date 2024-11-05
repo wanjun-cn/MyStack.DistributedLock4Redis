@@ -19,7 +19,7 @@ namespace Microsoft.Extensions.DistributedLock4Redis
             cancellation.ThrowIfCancellationRequested();
             if (string.IsNullOrEmpty(key))
             {
-                throw new ArgumentNullException(nameof(key), "键名不能为空");
+                throw new ArgumentNullException(nameof(key), "Key name cannot be null or empty");
             }
 
             DateTime begin = DateTime.Now;
@@ -51,7 +51,7 @@ namespace Microsoft.Extensions.DistributedLock4Redis
         protected virtual string GetFullKey(string key)
         {
             if (string.IsNullOrEmpty(key))
-                throw new ArgumentNullException(nameof(key), "键名不能为空");
+                throw new ArgumentNullException(nameof(key), "Key name cannot be null or empty");
             return string.IsNullOrEmpty(Options.KeyPrefix) ? key : $"{Options.KeyPrefix}.{key}";
         }
         public async virtual Task<T> TryExecuteAsync<T>(string key, Func<Task<T>> handler, int? expire = null, int? attempt = null, CancellationToken cancellation = default)

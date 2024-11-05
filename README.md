@@ -1,14 +1,14 @@
 # MyStack.DistributedLock4Redis
 
-开源的轻量级分布式锁类库
+Open-source Lightweight Distributed Lock Library (Based on Redis)
 
 | nuget      | stats |
 | ----------- | ----------- |
 | [![nuget](https://img.shields.io/nuget/v/MyStack.DistributedLock4Redis.svg?style=flat-square)](https://www.nuget.org/packages/MyStack.DistributedLock4Redis)       |  [![stats](https://img.shields.io/nuget/dt/MyStack.DistributedLock4Redis.svg?style=flat-square)](https://www.nuget.org/stats/packages/MyStack.DistributedLock4Redis?groupby=Version)        |
 
-# 开始使用
+# Getting Started
 
-## 添加服务支持
+## Add Service Support
 
 ```
 services.AddDistributedLock4Redis(configure =>
@@ -18,25 +18,25 @@ services.AddDistributedLock4Redis(configure =>
 });
 ```
 
-## 使用分布式
+## Using Distributed Locks
 
 ```
-// 获取锁
+// Acquire Lock
 var distributedLock = ServiceProvider.GetRequiredService<IDistributedLock>();
-var result = await distributedLock.TryEnterAsync("Foo", expire: 60);
-// 释放锁
+var result = await distributedLock.TryAcquireAsync("Foo", expire: 60);
+// Release Lock
 await distributedLock.ReleaseAsync("Foo");
 
 
 or 
 
-// 尝试获取锁并执行异步任务
+// Try to Acquire Lock and Execute Asynchronous Task
 var distributedLock = ServiceProvider.GetRequiredService<IDistributedLock>();
-var result = await distributedLock.TryEnterAsync("Foo", async () =>
+var result = await distributedLock.TryExecuteAsync("Foo", async () =>
 {
     return await Task.FromResult(1);
 });
 ```
 
-# 许可 
+# License 
 MIT

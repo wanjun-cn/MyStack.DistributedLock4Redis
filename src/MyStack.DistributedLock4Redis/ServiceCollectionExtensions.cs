@@ -8,10 +8,10 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class ServiceCollectionExtensions
     { 
         /// <summary>
-        /// 添加Redis分布式锁支持
+        /// Adds Redis distributed lock support
         /// </summary>
-        /// <param name="services">服务集合</param>
-        /// <param name="configure">配置委托</param>
+        /// <param name="services">Service collection</param>
+        /// <param name="configure">Configuration delegate</param>
         /// <returns></returns>
         public static IServiceCollection AddDistributedLock4Redis(this IServiceCollection services, Action<DistributedLock4RedisOptions> configure)
         {
@@ -22,11 +22,12 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton(typeof(IDistributedLock), typeof(RedisDistributedLock));
             return services;
         }
+        
         /// <summary>
-        /// 添加Redis分布式锁支持
+        /// Adds Redis distributed lock support
         /// </summary>
-        /// <param name="services">服务集合</param>
-        /// <param name="configuration">配置接口</param>
+        /// <param name="services">Service collection</param>
+        /// <param name="configuration">Configuration interface</param>
         /// <returns></returns>
         public static IServiceCollection AddDistributedLock4Redis(this IServiceCollection services, IConfiguration configuration)
         {
@@ -40,4 +41,3 @@ namespace Microsoft.Extensions.DependencyInjection
         }
     }
 }
-
