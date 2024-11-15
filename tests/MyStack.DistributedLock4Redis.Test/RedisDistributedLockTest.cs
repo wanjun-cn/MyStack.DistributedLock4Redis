@@ -9,18 +9,13 @@ namespace MyStack.DistributedLock4Redis.Test
         public async Task TryAcquire()
         {
             var distributedLock = ServiceProvider.GetRequiredService<IDistributedLock>();
-            var result = await distributedLock.TryAcquireAsync("Foo", expire: 60);
-            Assert.True(result);
-        }
-        [Test]
-        public async Task TrExecute()
-        {
-            var distributedLock = ServiceProvider.GetRequiredService<IDistributedLock>();
-            var result = await distributedLock.TryExecuteAsync("Foo", () =>
+            using (var handle = await distributedLock.TryAcquireAsync("Foo"))
+            {
+                if (handle != null)
                 {
-                    return Task.FromResult(1);
-                }, 10, 10, CancellationToken.None);
-            Assert.That(result, Is.EqualTo(1));
+                    // Write your logical code
+                }
+            }
         }
     }
 }

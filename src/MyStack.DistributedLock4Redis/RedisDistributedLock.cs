@@ -9,12 +9,14 @@ namespace Microsoft.Extensions.DistributedLock4Redis
 
     public class RedisDistributedLock : IDistributedLock
     {
-        public RedisDistributedLock(IOptions<DistributedLock4RedisOptions> options)
+        protected LockKeyResolver LockKeyResolver { get; }
+        public RedisDistributedLock(IOptions<DistributedLock4RedisOptions> options, LockKeyResolver lockKeyResolver)
         {
             Options = options.Value;
+            LockKeyResolver = lockKeyResolver;
         }
         protected DistributedLock4RedisOptions Options { get; }
-        public async virtual Task<bool> TryAcquireAsync(string key, int? expire, int? attempt, CancellationToken cancellation = default)
+        public async Task<IDistributedLockHandle?> TryAcquireAsync(string key, int? expireSeconds = null, int? attemptSeconds = null, CancellationToken cancellation = default)
         {
             cancellation.ThrowIfCancellationRequested();
             if (string.IsNullOrEmpty(key))
@@ -22,71 +24,26 @@ namespace Microsoft.Extensions.DistributedLock4Redis
                 throw new ArgumentNullException(nameof(key), "Key name cannot be null or empty");
             }
 
+            key = LockKeyResolver.GetKey(key);
+
             DateTime begin = DateTime.Now;
-            var attemptSeconds = attempt ?? 60;
             while (true)
             {
-                if (await RedisHelper.SetAsync(GetFullKey(key), Thread.CurrentThread.ManagedThreadId, expire ?? 10, RedisExistence.Nx))
+                if (await RedisHelper.SetAsync(key, Thread.CurrentThread.ManagedThreadId, attemptSeconds ?? Options.DefaultExpireSeconds, RedisExistence.Nx))
                 {
-                    return true;
+                    return new RedisDistributedLockHandle(key);
                 }
                 if (attemptSeconds == 0)
                 {
                     break;
                 }
-                if ((DateTime.Now - begin).TotalSeconds >= attemptSeconds)
+                if ((DateTime.Now - begin).TotalSeconds >= (expireSeconds ?? Options.DefaultAttemptSeconds))
                 {
                     break;
                 }
-
-                Thread.Sleep(100);
+                await Task.Delay(100);
             }
-            return false;
+            return null;
         }
-        public async virtual Task ReleaseAsync(string key, CancellationToken cancellation = default)
-        {
-            cancellation.ThrowIfCancellationRequested();
-            await RedisHelper.DelAsync(GetFullKey(key));
-        }
-        protected virtual string GetFullKey(string key)
-        {
-            if (string.IsNullOrEmpty(key))
-                throw new ArgumentNullException(nameof(key), "Key name cannot be null or empty");
-            return string.IsNullOrEmpty(Options.KeyPrefix) ? key : $"{Options.KeyPrefix}.{key}";
-        }
-        public async virtual Task<T> TryExecuteAsync<T>(string key, Func<Task<T>> handler, int? expire = null, int? attempt = null, CancellationToken cancellation = default)
-        {
-            cancellation.ThrowIfCancellationRequested();
-            if (await TryAcquireAsync(key, expire, attempt))
-            {
-                try
-                {
-                    if (handler != null)
-                        return await handler.Invoke();
-                }
-                finally
-                {
-                    try { await ReleaseAsync(key); } finally { }
-                }
-            }
-            return default!;
-        }
-        public async virtual Task TryExecuteAsync(string key, Func<Task> handler, int? expire = null, int? attempt = null, CancellationToken cancellation = default)
-        {
-            cancellation.ThrowIfCancellationRequested();
-            if (await TryAcquireAsync(key, expire, attempt))
-            {
-                try
-                {
-                    if (handler != null)
-                        await handler.Invoke();
-                }
-                finally
-                {
-                    try { await ReleaseAsync(key); } finally { }
-                }
-            }
-        }
-
     }
 }

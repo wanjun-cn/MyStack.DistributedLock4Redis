@@ -29,6 +29,6 @@ namespace MyStack.DistributedLock4Redis.Test
 
             var app = builder.Build();
             ServiceProvider = app.Services;
-        } 
+        }
     }
 }

@@ -6,7 +6,7 @@ using System;
 namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
-    { 
+    {
         /// <summary>
         /// Adds Redis distributed lock support
         /// </summary>
@@ -22,7 +22,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton(typeof(IDistributedLock), typeof(RedisDistributedLock));
             return services;
         }
-        
+
         /// <summary>
         /// Adds Redis distributed lock support
         /// </summary>

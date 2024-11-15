@@ -22,20 +22,13 @@ services.AddDistributedLock4Redis(configure =>
 
 ```
 // Acquire Lock
-var distributedLock = ServiceProvider.GetRequiredService<IDistributedLock>();
-var result = await distributedLock.TryAcquireAsync("Foo", expire: 60);
-// Release Lock
-await distributedLock.ReleaseAsync("Foo");
-
-
-or 
-
-// Try to Acquire Lock and Execute Asynchronous Task
-var distributedLock = ServiceProvider.GetRequiredService<IDistributedLock>();
-var result = await distributedLock.TryExecuteAsync("Foo", async () =>
+using (var handle = await distributedLock.TryAcquireAsync("Foo"))
 {
-    return await Task.FromResult(1);
-});
+    if (handle != null)
+    {
+        // Write your logical code
+    }
+}
 ```
 
 # License 

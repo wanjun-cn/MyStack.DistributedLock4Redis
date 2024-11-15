@@ -13,5 +13,13 @@
         /// Gets or sets the Redis connection string
         /// </summary>
         public string ConnectionString { get; set; } = default!;
+        /// <summary>
+        /// Get or set default lock expiration time (in seconds)
+        /// </summary>
+        public int DefaultExpireSeconds { get; set; } = 10;
+        /// <summary>
+        /// Get or set default attempt time (in seconds)
+        /// </summary>
+        public int DefaultAttemptSeconds { get; set; } = 60;
     }
 }
