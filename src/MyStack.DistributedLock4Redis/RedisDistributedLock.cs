@@ -18,7 +18,6 @@ namespace Microsoft.Extensions.DistributedLock4Redis
         protected DistributedLock4RedisOptions Options { get; }
         public async Task<IDistributedLockHandle?> TryAcquireAsync(string key, int? expireSeconds = null, int? attemptSeconds = null, CancellationToken cancellation = default)
         {
-            cancellation.ThrowIfCancellationRequested();
             if (string.IsNullOrEmpty(key))
             {
                 throw new ArgumentNullException(nameof(key), "Key name cannot be null or empty");
@@ -27,7 +26,7 @@ namespace Microsoft.Extensions.DistributedLock4Redis
             key = LockKeyResolver.GetKey(key);
 
             DateTime begin = DateTime.Now;
-            while (true)
+            while (!cancellation.IsCancellationRequested)
             {
                 if (await RedisHelper.SetAsync(key, Thread.CurrentThread.ManagedThreadId, attemptSeconds ?? Options.DefaultExpireSeconds, RedisExistence.Nx))
                 {
