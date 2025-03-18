@@ -4,19 +4,31 @@
 		<Nullable>enable</Nullable>
 		<TargetFrameworks>netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Title>MyStack.DistributedLock4Redis</Title>
-		<Version>1.0.8</Version>
+		<Title>DistributedLock4Redis</Title>
+		<Version>1.0.0</Version>
 		<Authors>Jun Wan</Authors>
 		<Company>Jun Wan</Company>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReadmeFile>NUGET.md</PackageReadmeFile>
-		<Description>Open-source Lightweight Distributed Lock Library (Based on Redis)</Description>
+		<Description>
+			Open-source Lightweight Distributed Lock Library (Based on Redis)
+			Usage：
+			// IDistributedLock
+			using (var handle = await distributedLock.TryAcquireAsync("Foo"))
+			{
+			if (handle != null)
+			{
+			// Write your logical code
+			}
+			}
+		</Description>
 		<RootNamespace>Microsoft.Extensions.DistributedLock4Redis</RootNamespace>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/june-it/MyStack.DistributedLock4Redis.git</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<PackageTags>MyStack;Redis;Distributed Lock</PackageTags>
+		<AssemblyName>DistributedLock4Redis</AssemblyName>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
