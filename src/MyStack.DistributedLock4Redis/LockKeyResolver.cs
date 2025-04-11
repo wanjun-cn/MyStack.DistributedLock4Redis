@@ -14,7 +14,7 @@ namespace Microsoft.Extensions.DistributedLock4Redis
         {
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentNullException(nameof(key), "Key name cannot be null or empty");
-            return string.IsNullOrEmpty(KeyPrefix) ? key : $"{KeyPrefix}.{key}";
+            return string.IsNullOrEmpty(KeyPrefix) ? key : $"{KeyPrefix}{key}";
         }
     }
 }

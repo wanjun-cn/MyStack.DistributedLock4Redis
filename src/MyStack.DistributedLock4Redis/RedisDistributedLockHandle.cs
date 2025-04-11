@@ -1,4 +1,6 @@
-﻿namespace Microsoft.Extensions.DistributedLock4Redis
+﻿using System.Threading.Tasks;
+
+namespace Microsoft.Extensions.DistributedLock4Redis
 {
     public class RedisDistributedLockHandle : IDistributedLockHandle
     {
@@ -10,6 +12,11 @@
         public void Dispose()
         {
             RedisHelper.Del(FullKey);
+        }
+
+        public async Task DisposeAsync()
+        {
+            await RedisHelper.DelAsync(FullKey);
         }
     }
 }

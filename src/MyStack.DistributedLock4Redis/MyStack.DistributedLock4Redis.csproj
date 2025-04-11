@@ -5,22 +5,23 @@
 		<TargetFrameworks>netstandard2.1;net6.0;net7.0;net8.0</TargetFrameworks>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>DistributedLock4Redis</Title>
-		<Version>1.0.0</Version>
+		<Version>1.0.2</Version>
 		<Authors>Jun Wan</Authors>
 		<Company>Jun Wan</Company>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReadmeFile>NUGET.md</PackageReadmeFile>
 		<Description>
 			Open-source Lightweight Distributed Lock Library (Based on Redis)
-			Usage：
-			// IDistributedLock
-			using (var handle = await distributedLock.TryAcquireAsync("Foo"))
-			{
-			if (handle != null)
-			{
-			// Write your logical code
-			}
-			}
+			
+Usage：
+// IDistributedLock
+using (var handle = await distributedLock.TryAcquireAsync("Foo"))
+{
+	if (handle != null)
+	{
+	// Write your logical code
+	}
+}
 		</Description>
 		<RootNamespace>Microsoft.Extensions.DistributedLock4Redis</RootNamespace>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
