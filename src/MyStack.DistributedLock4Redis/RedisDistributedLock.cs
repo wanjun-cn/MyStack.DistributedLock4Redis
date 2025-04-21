@@ -28,7 +28,7 @@ namespace Microsoft.Extensions.DistributedLock4Redis
             DateTime begin = DateTime.Now;
             while (!cancellation.IsCancellationRequested)
             {
-                if (await RedisHelper.SetAsync(key, Thread.CurrentThread.ManagedThreadId, attemptSeconds ?? Options.DefaultExpireSeconds, RedisExistence.Nx))
+                if (await RedisHelper.SetAsync(key, Thread.CurrentThread.ManagedThreadId, expireSeconds ?? Options.DefaultExpireSeconds, RedisExistence.Nx))
                 {
                     return new RedisDistributedLockHandle(key);
                 }
@@ -36,7 +36,7 @@ namespace Microsoft.Extensions.DistributedLock4Redis
                 {
                     break;
                 }
-                if ((DateTime.Now - begin).TotalSeconds >= (expireSeconds ?? Options.DefaultAttemptSeconds))
+                if ((DateTime.Now - begin).TotalSeconds >= (attemptSeconds ?? Options.DefaultAttemptSeconds))
                 {
                     break;
                 }
