@@ -1,22 +1,40 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DistributedLock4Redis.Internal;
+using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.DistributedLock4Redis
 {
-    public class RedisDistributedLockHandle : IDistributedLockHandle
+    internal class RedisDistributedLockHandle : IDistributedLockHandle
     {
-        public string FullKey { get; }
-        public RedisDistributedLockHandle(string fullKey)
+        public string Key { get; }
+        private bool _disposed = false;
+        public RedisDistributedLockHandle(string key)
         {
-            FullKey = fullKey;
-        }
-        public void Dispose()
-        {
-            RedisHelper.Del(FullKey);
+            Key = key;
         }
 
-        public async Task DisposeAsync()
+        public void Dispose()
         {
-            await RedisHelper.DelAsync(FullKey);
+            if (_disposed) return;
+            try
+            {
+                RedisClient.DelAsync(Key).ConfigureAwait(false).GetAwaiter().GetResult();
+            }
+            finally
+            {
+                _disposed = true;
+            }
+        }
+        public async ValueTask DisposeAsync()
+        {
+            if (_disposed) return;
+            try
+            {
+                await RedisClient.DelAsync(Key);
+            }
+            finally
+            {
+                _disposed = true;
+            }
         }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.DistributedLock4Redis
 {
-    public interface IDistributedLockHandle : IDisposable
+    public interface IDistributedLockHandle : IDisposable, IAsyncDisposable
     {
-        Task DisposeAsync();
     }
 }

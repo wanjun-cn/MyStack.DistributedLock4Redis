@@ -1,6 +1,7 @@
-﻿using CSRedis;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DistributedLock4Redis;
+using Microsoft.Extensions.DistributedLock4Redis.Internal;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -18,9 +19,9 @@ namespace Microsoft.Extensions.DependencyInjection
             var options = new DistributedLock4RedisOptions();
             configure?.Invoke(options);
             services.Configure(configure);
-            RedisHelper.Initialization(new CSRedisClient(options.ConnectionString));
             services.AddTransient(typeof(IDistributedLock), typeof(RedisDistributedLock));
-            services.AddTransient<LockKeyResolver>();
+            services.AddSingleton<KeyResolver>();
+            RedisClient.Initialize(options.ConnectionString);
             return services;
         }
 
@@ -36,9 +37,9 @@ namespace Microsoft.Extensions.DependencyInjection
             var options = new DistributedLock4RedisOptions();
             configurationSection.Bind(options);
             services.Configure<DistributedLock4RedisOptions>(configurationSection);
-            RedisHelper.Initialization(new CSRedisClient(options.ConnectionString));
-            services.AddTransient(typeof(IDistributedLock), typeof(RedisDistributedLock)); 
-            services.AddTransient<LockKeyResolver>();
+            services.AddTransient(typeof(IDistributedLock), typeof(RedisDistributedLock));
+            services.AddSingleton<KeyResolver>();
+            RedisClient.Initialize(options.ConnectionString);
             return services;
         }
     }
